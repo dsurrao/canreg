@@ -1,24 +1,23 @@
-from canreg.models import Patient
+from canreg.models import Patient, PreliminaryQuestions, DSTWorkup
 
 class Workflow:
-    starting_state
+    states = []
+    def __init__(self, patient):
+        self.patient = patient
+        self.states.append(NewPatientState(patient))
+        self.states.append(StageCancerState(patient))
 
-class WorflowState:
-    patient
-    required_information = []
-    child_states = []
+class NewPatientState:
+    def __init__(self, patient):
+        self.patient = patient
+        self.preliminary_questions = PreliminaryQuestions(patient)
 
-    # processes business logic using patient, required_information
-    # to move patient to child_state
-    def execute_transition(self):
-        return child_state
+        def execute_transition(self):
+            if self.preliminary_questions.confirmed_diagnosis:
+                child_state = new StageCancerState()
+            return child_state
 
-class WorkflowController:
-    def define_workflow(self):
-        return workflow
-
-    def start_workflow(self, patient):
-        return patient_workflow_state
-
-    def get_workflow_state(self, patient):
-        return patient_workflow_state
+class StageCancerState:
+    def __init__(self, patient, dst_workup):
+        self.patient = patient
+        self.dst_workup = DSTWorkup(patient)
