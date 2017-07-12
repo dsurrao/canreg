@@ -1,0 +1,6 @@
+<b>Patient List</b><br/>
+{% if patient_list %}
+{% for patient in patient_list %}
+  <a href="/patients/{{ patient.id }}">{{ patient.first_name }}</a><br/>
+{% endfor %}
+{% endif %}
