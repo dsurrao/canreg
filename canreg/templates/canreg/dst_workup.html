@@ -1,0 +1,10 @@
+<form action="/dst_workup/{{ patient.id }}/" method="POST">
+  {% csrf_token %}
+  Patient:: {{ patient.first_name }} {{ patient.last_name }}
+  ({{ patient.mrn }})
+  <br/><br/>
+
+  {{ form }}
+  <br/><br/>
+  <input type="submit" value="Submit" />
+</form>

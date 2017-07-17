@@ -67,9 +67,9 @@ class DSTWorkupImagingStudy(models.Model):
 class PatientWorkflowHistory(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     workflow_state = models.CharField(max_length=25)
-    date_started = models.DateTimeField()
-    date_updated = models.DateTimeField()
-    is_complete = models.BooleanField()
+    date_created = models.DateTimeField()
+    date_updated = models.DateTimeField(blank=True)
+    is_complete = models.BooleanField(default=False)
 
 
 # model forms
@@ -80,3 +80,9 @@ class PreliminaryQuestionsForm(ModelForm):
         fields = ['confirmed_diagnosis', 'history_suggests_cancer',
         'widely_metastatic_cancer', 'diagnosable_at_location',
         'treatable_at_location']
+
+class DSTWorkupForm(ModelForm):
+    class Meta:
+        model = DSTWorkup
+        fields = ['pathology_report_institution', 'receptor_statuses',
+        'no_pathology', 'pathology_report_date', 'imaging_assessment']

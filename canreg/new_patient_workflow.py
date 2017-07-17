@@ -1,11 +1,15 @@
-from .models import Patient, PreliminaryQuestions, DSTWorkup,
+from .models import Patient, PreliminaryQuestions, DSTWorkup, \
 PatientWorkflowHistory
 
-class Workflow:
-    def get_workflow_state(patient):
+class NewPatientWorkflow:
+    def __init__(self, patient):
+        self.patient = patient
+
+    def get_workflow_state():
+        label = ''
 
 
-    def save_workflow_state(patient, workflow_state, is_complete):
+    def save_workflow_state(workflow_state, is_complete):
         # add logic here to save to PatientWorkflowHistory model
         # ...
         save_workflow_history = staticmethod(save_workflow_history)
@@ -18,10 +22,11 @@ class NewPatientState:
         self.patient = patient
 
     def start_workflow_state(self):
-        Workflow.save_workflow_history(self.patient, self.label, false)
+        NewPatientWorkflow.save_workflow_history(self.patient, self.label,
+        false)
 
     def get_next_workflow_state(self):
-        return "StageCancerState"
+        return StageCancerState(patient)
 
     def is_complete(self):
         try:
@@ -30,15 +35,20 @@ class NewPatientState:
 
         except DoesNotExist:
             # ...
-
+            i = 0
 
 class StageCancerState:
     label = 'StageCancerState'
 
+    def __init__(self, patient):
+        self.patient = patient
+
     def start_workflow_state(self):
-        Workflow.save_workflow_history(self.patient, self.label, false)
+        NewPatientWorkflow.save_workflow_history(self.patient, self.label,
+        false)
 
     def get_next_workflow_state(self):
-        return "AdmitPatientStage"
+        return AdmitPatientStage(patient)
 
     def is_complete(self):
+        i = 0
