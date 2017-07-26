@@ -1,2 +1,4 @@
+dj-database-url==0.4.2
 Django==1.11.3
-gunicorn
+gunicorn==0.14.2
+pytz==2017.2
