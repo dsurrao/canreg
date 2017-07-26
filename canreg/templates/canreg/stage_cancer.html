@@ -1,0 +1,20 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<form action="/stage_cancer/{{ patient.id }}/" method="POST">
+  {% csrf_token %}
+  Patient: {{ patient.first_name }} {{ patient.last_name }}
+  ({{ patient.mrn }})
+  <br/><br/>
+
+  {{ dst_workup_reason_form }}
+  <br/><br/>
+  {{ dst_workup_institution_form }}
+  <br/><br/>
+  {{ dst_workup_form }}
+  <br/><br/>
+  {{ dst_workup_diagnosis_form }}
+  <br/><br/>
+
+  <input type="submit" value="Submit" />
+
+</form>

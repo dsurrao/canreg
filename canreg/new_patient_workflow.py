@@ -1,54 +1,43 @@
 from .models import Patient, PreliminaryQuestions, DSTWorkup, \
 PatientWorkflowHistory
 
-class NewPatientWorkflow:
-    def __init__(self, patient):
-        self.patient = patient
-
-    def get_workflow_state():
-        label = ''
-
-
-    def save_workflow_state(workflow_state, is_complete):
-        # add logic here to save to PatientWorkflowHistory model
-        # ...
-        save_workflow_history = staticmethod(save_workflow_history)
-
+class SaveResult:
+    pass
 
 class NewPatientState:
     label = 'NewPatientState'
 
-    def __init__(self, patient):
-        self.patient = patient
+    @staticmethod
+    def save(patient):
+        pwh = PatientWorkflowHistory()
+        pwh.patient = patient
+        pwh.workflow_state = NewPatientState.label
+        pwh.is_complete = True
+        pwh.save()
 
-    def start_workflow_state(self):
-        NewPatientWorkflow.save_workflow_history(self.patient, self.label,
-        false)
+        result = SaveResult()
+        result.is_complete = True
+        result.next_state = 'StageCancerState'
 
-    def get_next_workflow_state(self):
-        return StageCancerState(patient)
+        return result
 
-    def is_complete(self):
-        try:
-            pq = PreliminaryQuestions.objects.filter(
-            patient__mrn=self.patient.mrn).order_by('-recorded_date')[0]
-
-        except DoesNotExist:
-            # ...
-            i = 0
 
 class StageCancerState:
     label = 'StageCancerState'
 
-    def __init__(self, patient):
-        self.patient = patient
+    @staticmethod
+    def save(patient):
+        dst = Null
+        dsts = DSTWorkup.Objects.filter(patient__id=patient.id)\
+        .order_by('-recorded_date')
+        if dsts.count() > 0:
+            dst = dsts[0]
+        else:
+            dst = DSTWorkup(patient=patient)
+            dst.save()
 
-    def start_workflow_state(self):
-        NewPatientWorkflow.save_workflow_history(self.patient, self.label,
-        false)
+        result = SaveResult()
+        result.is_complete = True
+        result.next_state = ''
 
-    def get_next_workflow_state(self):
-        return AdmitPatientStage(patient)
-
-    def is_complete(self):
-        i = 0
+        return result

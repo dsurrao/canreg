@@ -1,5 +1,4 @@
 from django.db import models
-from django.forms import ModelForm
 
 # models
 
@@ -8,19 +7,35 @@ class Patient(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
 
+    def __str__(self):              # __unicode__ on Python 2
+        return self.first_name + ' ' + self.last_name
+
 class Reason(models.Model):
-    description = models.CharField(max_length=200)
+    name = models.CharField(max_length=200)
+
+    def __str__(self):              # __unicode__ on Python 2
+        return self.name
 
 class Institution(models.Model):
-    description = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
+    is_predefined = models.BooleanField(default=False)
+
+    def __str__(self):              # __unicode__ on Python 2
+        return self.name
 
 class Diagnosis(models.Model):
-    description = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, default='')
+    is_predefined = models.BooleanField(default=False)
+
+    def __str__(self):              # __unicode__ on Python 2
+        return self.name
 
 class ImagingStudy(models.Model):
     name = models.CharField(max_length=50)
-    study_date = models.DateTimeField('study date')
-    site = models.ForeignKey(Institution, on_delete=models.CASCADE)
+    is_predefined = models.BooleanField(default=False)
+
+    def __str__(self):              # __unicode__ on Python 2
+        return self.name
 
 class PreliminaryQuestions(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
@@ -29,60 +44,52 @@ class PreliminaryQuestions(models.Model):
     widely_metastatic_cancer = models.BooleanField()
     diagnosable_at_location = models.BooleanField()
     treatable_at_location = models.NullBooleanField()
-    recorded_date = models.DateTimeField('date recorded')
+    recorded_date = models.DateTimeField(auto_now=True)
 
+# 'Estrogen', 'Progesterone', 'HER2 IHC', 'HER2 FISH'
 class Receptor(models.Model):
     name = models.CharField(max_length=30)
 
-class ReceptorStatus(models.Model):
-    receptor = models.ForeignKey(Receptor, on_delete=models.CASCADE)
-    name = models.CharField(max_length=15)
+    def __str__(self):              # __unicode__ on Python 2
+        return self.name
 
 class DSTWorkup(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    pathology_report_institution = models.ForeignKey(Institution,
-    on_delete=models.CASCADE)
-    receptor_statuses = models.ManyToManyField(ReceptorStatus)
-
     no_pathology = models.BooleanField()
-    pathology_report_date = models.DateTimeField('pathology report date')
+    pathology_report_date = models.DateTimeField(null=True, blank=True)
     imaging_assessment = models.CharField(max_length=1000)
-    recorded_date = models.DateTimeField('date recorded')
+    recorded_date = models.DateTimeField(auto_now=True)
 
-class DSTWorkupFollowupReason(models.Model):
-    dst_workup = models.ForeignKey(DSTWorkup, on_delete=models.CASCADE)
-    follow_up_reason = models.ForeignKey(Reason, on_delete=models.CASCADE)
-    comments = models.CharField(max_length=500)
+    def __str__(self):              # __unicode__ on Python 2
+        return 'DSTWorkup {}'.format(self.id)
+
+class DSTWorkupReason(models.Model):
+    dst_workup = models.ForeignKey(DSTWorkup)
+    reason = models.ForeignKey(Reason, on_delete=models.CASCADE)
+    description = models.CharField(max_length=300, blank=True)
+
+class DSTWorkupInstitution(models.Model):
+    dst_workup = models.ForeignKey(DSTWorkup)
+    institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
+    description = models.CharField(max_length=300, blank=True)
 
 class DSTWorkupDiagnosis(models.Model):
-    dst_workup = models.ForeignKey(DSTWorkup, on_delete=models.CASCADE)
+    dst_workup = models.ForeignKey(DSTWorkup)
     diagnosis = models.ForeignKey(Diagnosis, on_delete=models.CASCADE)
-    comments = models.CharField(max_length=500)
+    description = models.CharField(max_length=300, blank=True)
+
+class DSTWorkupReceptorStatus(models.Model):
+    dst_workup = models.ForeignKey(DSTWorkup)
+    receptor = models.ForeignKey(Receptor, on_delete=models.CASCADE)
+    status = models.NullBooleanField()
 
 class DSTWorkupImagingStudy(models.Model):
     dst_workup = models.ForeignKey(DSTWorkup, on_delete=models.CASCADE)
-    imaging_study = models.ForeignKey(ImagingStudy, on_delete=models.CASCADE)
-    comments = models.CharField(max_length=500)
+    site = models.ForeignKey(Institution, on_delete=models.CASCADE)
+    study_date = models.DateTimeField('study date')
 
 class PatientWorkflowHistory(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     workflow_state = models.CharField(max_length=25)
-    date_created = models.DateTimeField()
-    date_updated = models.DateTimeField(blank=True)
+    date_created = models.DateTimeField(auto_now=True)
     is_complete = models.BooleanField(default=False)
-
-
-# model forms
-
-class PreliminaryQuestionsForm(ModelForm):
-    class Meta:
-        model = PreliminaryQuestions
-        fields = ['confirmed_diagnosis', 'history_suggests_cancer',
-        'widely_metastatic_cancer', 'diagnosable_at_location',
-        'treatable_at_location']
-
-class DSTWorkupForm(ModelForm):
-    class Meta:
-        model = DSTWorkup
-        fields = ['pathology_report_institution', 'receptor_statuses',
-        'no_pathology', 'pathology_report_date', 'imaging_assessment']
