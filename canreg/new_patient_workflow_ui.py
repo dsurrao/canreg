@@ -15,5 +15,4 @@ class NewPatientWorkflowUI:
     def next_view(next_state, patient_id):
         next_view_url = NewPatientWorkflowUI.workflow_url_map[next_state]
 
-        print reverse(next_view_url, args=(patient_id,))
         return HttpResponseRedirect(reverse(next_view_url, args=(patient_id,)))
