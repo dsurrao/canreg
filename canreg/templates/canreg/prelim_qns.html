@@ -1,14 +1,39 @@
-<form action="/prelim_qns/{{ patient.id }}/" method="POST">
-  {% csrf_token %}
-  Patient:: {{ patient.first_name }} {{ patient.last_name }}
-  ({{ patient.mrn }})
-  <br/><br/>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css">
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/changelists.css">
+</head>
+<body class="dashboard">
+  <div class="breadcrumbs">
+    <a href="/patients">Patient List</a>
+    ›
+    Preliminary Questions
+    ›
+    <a href="/stage_cancer/{{ patient.id }}">DST Workup</a>
+  </div>
+  <div id="content" class="colM">
+    <div id="content-main">
+      <form action="/prelim_qns/{{ patient.id }}/" method="POST">
+        {% csrf_token %}
 
-  {% for field in form %}
-    {{ field.label_tag }} {{ field }}
-  </br>
-  {% endfor %}
+        <h1>Preliminary Questions<h1>
 
-  <br/><br/>
-  <input type="submit" value="Submit" />
-</form>
+        <h2>Patient: {{ patient.first_name }} {{ patient.last_name }}
+        ({{ patient.mrn }})</h2>
+
+        <div>
+          <fieldset class="module aligned">
+            {% for field in form %}
+              <div class="form-row">
+                {{ field.label_tag }} {{ field }}
+              </div>
+            {% endfor %}
+          </fieldset>
+        </div>
+
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  </div>
+</body>

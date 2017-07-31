@@ -78,10 +78,35 @@ def stage_cancer(request, patient_id):
     patient = Patient.objects.get(id=patient_id)
 
     if request.method == 'GET':
-        dst_workup_form = DSTWorkupForm()
-        dst_workup_reason_form = DSTWorkupReasonForm()
-        dst_workup_institution_form = DSTWorkupInstitutionForm()
-        dst_workup_diagnosis_form = DSTWorkupDiagnosisForm()
+        try:
+            w = DSTWorkup.objects.get(patient__id=patient_id)
+            dst_workup_form = DSTWorkupForm(instance=w)
+
+            try:
+                wr = DSTWorkupReason.objects.get(dst_workup__id=w.id)
+                dst_workup_reason_form = DSTWorkupReasonForm(instance=wr)
+            except DSTWorkupReason.DoesNotExist:
+                dst_workup_reason_form = DSTWorkupReasonForm()
+
+            try:
+                wi = DSTWorkupInstitution.objects.get(dst_workup__id=w.id)
+                dst_workup_institution_form = DSTWorkupInstitutionForm(
+                instance=wi)
+            except DSTWorkupInstituion.DoesNotExist:
+                dst_workup_institution_form = DSTWorkupInstitutionForm()
+
+            try:
+                wd = DSTWorkupDiagnosis.objects.get(dst_workup__id=w.id)
+                dst_workup_diagnosis_form = DSTWorkupDiagnosisForm(
+                instance=wd)
+            except DSTWorkupDiagnosis.DoesNotExist:
+                dst_workup_diagnosis_form = DSTWorkupDiagnosisForm()
+                
+        except DSTWorkup.DoesNotExist:
+            dst_workup_form = DSTWorkupForm()
+            dst_workup_reason_form = DSTWorkupReasonForm()
+            dst_workup_institution_form = DSTWorkupInstitutionForm()
+            dst_workup_diagnosis_form = DSTWorkupDiagnosisForm()
     elif request.method == 'POST':
         try:
             w = DSTWorkup.objects.get(patient__id=patient_id)

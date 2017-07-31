@@ -1,5 +1,6 @@
 from django.forms import ModelForm, modelformset_factory, RadioSelect,\
-CheckboxSelectMultiple, CheckboxInput, Textarea
+CheckboxSelectMultiple, CheckboxInput, Textarea, SplitDateTimeWidget, \
+SelectDateWidget
 
 
 from .models import Patient, PreliminaryQuestions,\
@@ -33,6 +34,9 @@ class DSTWorkupForm(ModelForm):
     class Meta:
         model = DSTWorkup
         fields = ['no_pathology', 'pathology_report_date']
+        widgets = {
+            'pathology_report_date': SelectDateWidget
+        }
 
 class DSTWorkupReasonForm(ModelForm):
     class Meta:
@@ -54,7 +58,8 @@ class DSTWorkupInstitutionForm(ModelForm):
         }
     def __init__(self, *args, **kwargs):
         super(DSTWorkupInstitutionForm, self).__init__(*args, **kwargs)
-        self.fields['institution'].empty_label = 'Other'
+        # self.fields['institution'].empty_label = 'Other'
+        self.fields['institution'].empty_label = None
 
 class DSTWorkupDiagnosisForm(ModelForm):
     class Meta:
@@ -65,7 +70,8 @@ class DSTWorkupDiagnosisForm(ModelForm):
         }
     def __init__(self, *args, **kwargs):
         super(DSTWorkupDiagnosisForm, self).__init__(*args, **kwargs)
-        self.fields['diagnosis'].empty_label = 'Other'
+        # self.fields['diagnosis'].empty_label = 'Other'
+        self.fields['diagnosis'].empty_label = None
 
 class ReceptorForm(ModelForm):
     class Meta:

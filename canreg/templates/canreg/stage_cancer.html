@@ -1,20 +1,47 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css">
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/changelists.css">
+</head>
+<body class="dashboard">
+  <div class="breadcrumbs">
+    <a href="/patients/">Patient List</a>
+    ›
+    <a href="/prelim_qns/{{ patient.id }}">Preliminary Questions</a>
+    ›
+    DST Workup
+  </div>
+  <div id="content" class="colM">
+    <div id="content-main">
+      <form action="/stage_cancer/{{ patient.id }}/" method="POST">
+        {% csrf_token %}
+        <h1>DST Workup</h1>
 
-<form action="/stage_cancer/{{ patient.id }}/" method="POST">
-  {% csrf_token %}
-  Patient: {{ patient.first_name }} {{ patient.last_name }}
-  ({{ patient.mrn }})
-  <br/><br/>
+        <h2>Patient: {{ patient.first_name }} {{ patient.last_name }}
+        ({{ patient.mrn }})</h2>
 
-  {{ dst_workup_reason_form }}
-  <br/><br/>
-  {{ dst_workup_institution_form }}
-  <br/><br/>
-  {{ dst_workup_form }}
-  <br/><br/>
-  {{ dst_workup_diagnosis_form }}
-  <br/><br/>
+        <div>
+          <fieldset class="module aligned">
+            <div class="form-row">
+              {{ dst_workup_reason_form }}
+            </div>
+            <div class="form-row">
+              {{ dst_workup_institution_form }}
+            </div>
+            {% for field in dst_workup_form %}
+              <div class="form-row">
+                {{ field.label_tag }} {{ field }}
+              </div>
+            {% endfor %}
+            <div class="form-row">
+              {{ dst_workup_diagnosis_form }}
+            </div>
+          </fieldset>
+        </div>
 
-  <input type="submit" value="Submit" />
-
-</form>
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  </div>
+</body>
