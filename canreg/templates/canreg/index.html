@@ -1,6 +1,21 @@
-<b>Patient List</b><br/>
-{% if patient_list %}
-{% for patient in patient_list %}
-  <a href="/patients/{{ patient.id }}">{{ patient.first_name }}</a><br/>
-{% endfor %}
-{% endif %}
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css">
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/changelists.css">
+</head>
+<body>
+  <div class="breadcrumbs">
+    Patient List
+  </div>
+  <div id="content">
+    <h1>Patient List</h1>
+    {% if patient_list %}
+    {% for patient in patient_list %}
+      <a href="/prelim_qns/{{ patient.id }}">{{ patient.first_name }}
+        {{ patient.last_name }} ({{ patient.mrn }})</a><br/>
+    {% endfor %}
+    {% endif %}
+    </div>
+  </body>
+</html>
