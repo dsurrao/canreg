@@ -31,5 +31,6 @@ urlpatterns = [
     url(r'^imaging_studies/(?P<patient_id>[0-9]+)/$', views.imaging_studies),
     url(r'^curative/(?P<patient_id>[0-9]+)/$', views.curative),
     url(r'^palliative/(?P<patient_id>[0-9]+)/$', views.palliative),
+    url(r'^pathology/(?P<patient_id>[0-9]+)/$', views.pathology)
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

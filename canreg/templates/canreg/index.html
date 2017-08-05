@@ -12,7 +12,7 @@
     <h1>Patient List</h1>
     {% if patient_list %}
     {% for patient in patient_list %}
-      <a href="/prelim_qns/{{ patient.id }}">{{ patient.first_name }}
+      <a href="/pathology/{{ patient.id }}">{{ patient.first_name }}
         {{ patient.last_name }} ({{ patient.mrn }})</a><br/>
     {% endfor %}
     {% endif %}
