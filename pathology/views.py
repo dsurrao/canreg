@@ -1,10 +1,12 @@
-from django.shortcuts import render
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
-from .pathology_forms import PathologyForm, BiopsySiteForm, \
+from django.shortcuts import render
+from canreg.models import Patient
+from .forms import PathologyForm, BiopsySiteForm, \
 BiopsyReceptorStatusForm
 
-from .models import Patient
-
+# Create your views here.
 def pathology(request, patient_id):
     patient = Patient.objects.get(id=patient_id)
 

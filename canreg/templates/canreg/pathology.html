@@ -1,9 +1,57 @@
-<h2>
-  Patient: {{ patient.first_name }} {{ patient.last_name }} ({{ patient.mrn }})
-</h2>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css">
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/changelists.css">
+</head>
+<body class="dashboard">
+  <div class="breadcrumbs">
+    <a href="/patients">Patient List</a>
+    ›
+    Pathology
+  </div>
+  <div id="content" class="colM">
+    <div id="content-main">
+      <form action="/pathology/{{ patient.id }}/" method="POST">
+        {% csrf_token %}
 
-{{ pathology_form }}
-<br/></br/>
-{{ biopsy_site_form }}
-<br/></br/>
-{{ biopsy_receptor_status_form }}
+        <h1>Pathology<h1>
+
+        <h2>Patient: {{ patient.first_name }} {{ patient.last_name }}
+        ({{ patient.mrn }})</h2>
+
+        <div>
+          <fieldset class="module aligned">
+            {% for field in pathology_form %}
+              <div class="form-row">
+                {{ field.label_tag }} {{ field }}
+              </div>
+            {% endfor %}
+          </fieldset>
+        </div>
+
+        <div>
+          <fieldset class="module aligned">
+            {% for field in biopsy_site_form %}
+              <div class="form-row">
+                {{ field.label_tag }} {{ field }}
+              </div>
+            {% endfor %}
+          </fieldset>
+        </div>
+
+        <div>
+          <fieldset class="module aligned">
+            {% for field in biopsy_receptor_status_form %}
+              <div class="form-row">
+                {{ field.label_tag }} {{ field }}
+              </div>
+            {% endfor %}
+          </fieldset>
+        </div>
+
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  </div>
+</body>

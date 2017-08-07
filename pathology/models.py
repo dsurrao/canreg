@@ -1,7 +1,20 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.db import models
-from .models import Institution, Receptor, Person, Patient
+
+# Create your models here.
+from canreg.models import Institution, Person, Patient
 
 # dictionary tables begin
+# 'Estrogen', 'Progesterone', 'HER2 IHC', 'HER2 FISH'
+class Receptor(models.Model):
+    name = models.CharField(max_length=30)
+    description = models.CharField(max_length=200, blank=True)
+
+    def __str__(self):              # __unicode__ on Python 2
+        return self.name
+
 class BiopsyStatusDict(models.Model):
     name = models.CharField(max_length=20)
     def __str__(self):              # __unicode__ on Python 2
@@ -22,6 +35,12 @@ class BiopsyHistologyDict(models.Model):
     is_predefined = models.BooleanField(default=False)
     def __str__(self):
         return self.name
+
+class NoBiopsyReasonDict(models.Model):
+    description = models.CharField(max_length=200)
+    is_predefined = models.BooleanField(default=False)
+    def __str__(self):
+        return self.description
 
 # Breast, Lymph node, Bone, other
 class AnatomySiteDict(models.Model):
@@ -53,12 +72,6 @@ class ReceptorTestDict(models.Model):
     name = models.CharField(max_length=10)
     def __str__(self):
         return self.name
-
-class NoBiopsyReasonDict(models.Model):
-    description = models.CharField(max_length=200)
-    is_predefined = models.BooleanField(default=False)
-    def __str__(self):
-        return self.description
 
 # dictionary tables end
 
@@ -108,6 +121,6 @@ class Pathology(models.Model):
     biopsy = models.ForeignKey(Biopsy, on_delete=models.CASCADE, blank=True)
     scheduled_biopsy = models.ForeignKey(ScheduledBiopsy,
     on_delete=models.CASCADE, blank=True)
-    no_biopsy_reason = models.ForeignKey(NoBiopsyReason,
+    no_biopsy_reason = models.ForeignKey(NoBiopsyReasonDict,
     on_delete=models.CASCADE, blank=True)
     recorded_date = models.DateTimeField(auto_now=True)

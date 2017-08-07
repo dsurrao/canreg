@@ -20,17 +20,15 @@ from django.conf.urls.static import static
 
 
 from . import views
+from pathology import views as pathology_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^patients/$', views.IndexView.as_view()),
     url(r'^patients/(?P<pk>[0-9]+)/$', views.DetailView.as_view()),
     url(r'^prelim_qns/(?P<patient_id>[0-9]+)/$', views.prelim_qns),
-    url(r'^stage_cancer/(?P<patient_id>[0-9]+)/$', views.stage_cancer, name='stage_cancer'),
-    url(r'^receptors/(?P<patient_id>[0-9]+)/$', views.receptors),
-    url(r'^imaging_studies/(?P<patient_id>[0-9]+)/$', views.imaging_studies),
     url(r'^curative/(?P<patient_id>[0-9]+)/$', views.curative),
     url(r'^palliative/(?P<patient_id>[0-9]+)/$', views.palliative),
-    url(r'^pathology/(?P<patient_id>[0-9]+)/$', views.pathology)
+    url(r'^pathology/(?P<patient_id>[0-9]+)/$', pathology_views.pathology)
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

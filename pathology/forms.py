@@ -2,7 +2,7 @@ from django.forms import ModelForm, modelformset_factory, RadioSelect,\
 CheckboxSelectMultiple, CheckboxInput, Textarea, SplitDateTimeWidget, \
 SelectDateWidget
 
-from .pathology_models import BiopsyStatusDict, BiopsyTypeDict,\
+from .models import BiopsyStatusDict, BiopsyTypeDict,\
 BiopsyHistologyDict, AnatomySiteDict, AnatomyLocationDict, AnatomyBoneDict,\
 ReceptorStrengthDict, ReceptorTestDict, NoBiopsyReasonDict, Biopsy, BiopsySite,\
 BiopsyReceptorStatus, ScheduledBiopsy, Pathology
