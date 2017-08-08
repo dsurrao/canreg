@@ -6,6 +6,7 @@ from pathology.models import *
 admin.site.register(Gender)
 admin.site.register(Patient)
 admin.site.register(Institution)
+admin.site.register(BiopsySite)
 admin.site.register(BiopsyStatusDict)
 admin.site.register(BiopsyTypeDict)
 admin.site.register(BiopsyGradeDict)

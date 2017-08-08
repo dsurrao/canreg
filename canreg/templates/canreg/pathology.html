@@ -4,7 +4,7 @@
   <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css">
   <link rel="stylesheet" type="text/css" href="/static/admin/css/changelists.css">
 </head>
-<body class="dashboard">
+<body>
   <div class="breadcrumbs">
     <a href="/patients">Patient List</a>
     ›
@@ -16,39 +16,19 @@
         {% csrf_token %}
 
         <h1>Pathology<h1>
-
         <h2>Patient: {{ patient.first_name }} {{ patient.last_name }}
         ({{ patient.mrn }})</h2>
 
-        <div>
-          <fieldset class="module aligned">
-            {% for field in pathology_form %}
-              <div class="form-row">
-                {{ field.label_tag }} {{ field }}
-              </div>
-            {% endfor %}
-          </fieldset>
-        </div>
-
-        <div>
-          <fieldset class="module aligned">
-            {% for field in biopsy_site_form %}
-              <div class="form-row">
-                {{ field.label_tag }} {{ field }}
-              </div>
-            {% endfor %}
-          </fieldset>
-        </div>
-
-        <div>
-          <fieldset class="module aligned">
-            {% for field in biopsy_receptor_status_form %}
-              <div class="form-row">
-                {{ field.label_tag }} {{ field }}
-              </div>
-            {% endfor %}
-          </fieldset>
-        </div>
+        <h3>Pathology</h3>
+        {% include "canreg/radio_select_snippet.html" with form=pathology_form %}
+        <h3>Biopsy</h3>
+        {% include "canreg/radio_select_snippet.html" with form=biopsy_form %}
+        <h3>Biopsy Site</h3>
+        {% include "canreg/radio_select_snippet.html" with form=biopsy_site_form %}
+        <h3>Receptor Status</h3>
+        {% include "canreg/receptor_snippet.html" with formset=biopsy_receptor_status_formset %}
+        <h3>Scheduled Biopsy</h3>
+        {% include "canreg/radio_select_snippet.html" with form=scheduled_biopsy_form %}
 
         <input type="submit" value="Submit" />
       </form>

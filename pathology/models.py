@@ -75,52 +75,56 @@ class ReceptorTestDict(models.Model):
 
 # dictionary tables end
 
-class Biopsy(models.Model):
-    pathologist_facility = models.ForeignKey(Institution,
-    on_delete=models.CASCADE)
-    pathologist_name = models.ForeignKey(Person, on_delete=models.CASCADE)
-    type = models.ForeignKey(BiopsyTypeDict, on_delete=models.CASCADE)
-    histology = models.ForeignKey(BiopsyHistologyDict, on_delete=models.CASCADE)
-    grade = models.ForeignKey(BiopsyGradeDict, on_delete=models.CASCADE)
-
-    procedure_date = models.DateTimeField()
-    pathology_report_date = models.DateTimeField()
-    is_lvi_positive = models.NullBooleanField()
-
 class BiopsySite(models.Model):
-    biopsy = models.ForeignKey(Biopsy, on_delete=models.CASCADE)
     site = models.ForeignKey(AnatomySiteDict, on_delete=models.CASCADE)
     location = models.ForeignKey(AnatomyLocationDict, on_delete=models.CASCADE,
-    blank=True)
-    bone = models.ForeignKey(AnatomyBoneDict, on_delete=models.CASCADE,
-    blank=True)
+    null=True)
     SIDE = (
         ('R', 'Right'),
         ('L', 'Left')
     )
-    side = models.CharField(max_length=1, choices=SIDE)
+    side = models.CharField(max_length=1, choices=SIDE, default='')
+    bone = models.CharField(max_length=100)
+
+class Biopsy(models.Model):
+    procedure_date = models.DateTimeField()
+    pathologist_name = models.CharField(max_length=200, blank=True)
+    pathologist_facility = models.ForeignKey(Institution,
+    on_delete=models.CASCADE)
+    pathology_report_date = models.DateTimeField()
+    type = models.ForeignKey(BiopsyTypeDict, on_delete=models.CASCADE)
+    biopsy_site = models.ForeignKey(BiopsySite, on_delete=models.CASCADE)
+    histology = models.ForeignKey(BiopsyHistologyDict, on_delete=models.CASCADE)
+    grade = models.ForeignKey(BiopsyGradeDict, on_delete=models.CASCADE)
+    LVI_STATUS = (
+        ('LVI+', 'LVI+'),
+        ('LVI-', 'LVI-'),
+        ('ND', 'Not Determined'),
+    )
+    lvi = models.CharField(max_length=14, choices=LVI_STATUS, default='ND')
+    #is_lvi_positive = models.NullBooleanField()
 
 class BiopsyReceptorStatus(models.Model):
     biopsy = models.ForeignKey(Biopsy, on_delete=models.CASCADE)
     receptor = models.ForeignKey(Receptor, on_delete=models.CASCADE)
     strength = models.ForeignKey(ReceptorStrengthDict, on_delete=models.CASCADE,
-    blank=True)
+    null=True)
     test_name = models.ForeignKey(ReceptorTestDict, on_delete=models.CASCADE,
-    blank=True)
+    null=True)
     is_positive = models.BooleanField(default=False)
 
 class ScheduledBiopsy(models.Model):
+    planned_procedure_date = models.DateTimeField()
     facility = models.ForeignKey(Institution, on_delete=models.CASCADE)
     type = models.ForeignKey(BiopsyTypeDict, on_delete=models.CASCADE)
-    contact_person = models.ForeignKey(Person, on_delete=models.CASCADE)
-    planned_procedure_date = models.DateTimeField()
+    contact_person = models.CharField(max_length=200, blank=True)
 
 class Pathology(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     biopsy_status = models.ForeignKey(BiopsyStatusDict, on_delete=models.CASCADE)
-    biopsy = models.ForeignKey(Biopsy, on_delete=models.CASCADE, blank=True)
+    biopsy = models.ForeignKey(Biopsy, on_delete=models.CASCADE, null=True)
     scheduled_biopsy = models.ForeignKey(ScheduledBiopsy,
-    on_delete=models.CASCADE, blank=True)
+    on_delete=models.CASCADE, null=True)
     no_biopsy_reason = models.ForeignKey(NoBiopsyReasonDict,
-    on_delete=models.CASCADE, blank=True)
+    on_delete=models.CASCADE, null=True)
     recorded_date = models.DateTimeField(auto_now=True)
