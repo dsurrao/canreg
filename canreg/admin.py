@@ -3,9 +3,9 @@ from django.contrib import admin
 from .models import *
 from pathology.models import *
 
-admin.site.register(Gender)
+admin.site.register(GenderDict)
 admin.site.register(Patient)
-admin.site.register(Institution)
+admin.site.register(InstitutionDict)
 admin.site.register(BiopsySite)
 admin.site.register(BiopsyStatusDict)
 admin.site.register(BiopsyTypeDict)

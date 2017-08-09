@@ -1,9 +1,5 @@
-from django.forms import ModelForm, modelformset_factory, RadioSelect,\
-CheckboxSelectMultiple, CheckboxInput, Textarea, SplitDateTimeWidget, \
-SelectDateWidget
-
-
-from .models import Patient, PreliminaryQuestions
+from django.forms import ModelForm
+from .models import PreliminaryQuestions
 
 # model forms
 class PreliminaryQuestionsForm(ModelForm):

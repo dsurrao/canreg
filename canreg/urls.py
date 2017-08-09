@@ -29,6 +29,13 @@ urlpatterns = [
     url(r'^prelim_qns/(?P<patient_id>[0-9]+)/$', views.prelim_qns),
     url(r'^curative/(?P<patient_id>[0-9]+)/$', views.curative),
     url(r'^palliative/(?P<patient_id>[0-9]+)/$', views.palliative),
-    url(r'^pathology/(?P<patient_id>[0-9]+)/$', pathology_views.pathology)
+    url(r'^biopsy_status/(?P<patient_id>[0-9]+)/$',
+        pathology_views.biopsy_status, name='biopsy_status'),
+    url(r'^biopsy/(?P<pathology_id>[0-9]+)/$', pathology_views.biopsy,
+        name='biopsy'),
+    url(r'^no_biopsy/(?P<pathology_id>[0-9]+)/$', pathology_views.no_biopsy,
+        name='no_biopsy'),
+    url(r'^scheduled_biopsy/(?P<pathology_id>[0-9]+)/$',
+        pathology_views.scheduled_biopsy, name='scheduled_biopsy'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

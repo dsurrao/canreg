@@ -1,8 +1,11 @@
 <div>
   <fieldset class="module aligned">
     {{ formset.management_form }}
-      {% for form in formset %}
-        {% include "canreg/radio_select_snippet.html" with form=form %}
-      {% endfor %}
+
+    {% for form in formset %}
+        {% for field in form %}
+            {{ field.label_tag }} {{ field }}
+        {% endfor %}
+    {% endfor %}
   </fieldset>
 </div>

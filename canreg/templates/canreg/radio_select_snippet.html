@@ -2,7 +2,7 @@
   <fieldset class="module aligned">
     {% for field in form %}
       <div class="form-row">
-        {% if field.label in "Biopsy status, Pathologist facility, Strength, Test name, Facility" %}
+        {% if field.label in "Biopsy status, Strength, Test name, Facility" %}
           {{ field.label_tag }}
           {% for subfield in field %}
             {{ subfield }}

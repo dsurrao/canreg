@@ -1,0 +1,28 @@
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css">
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/changelists.css">
+</head>
+<body>
+  <div class="breadcrumbs">
+    <a href="/patients">Patient List</a>
+    ›
+    Biopsy Status
+  </div>
+  <div id="content" class="colM">
+    <div id="content-main">
+      <form action="/biopsy_status/{{ patient.id }}/" method="POST">
+        {% csrf_token %}
+        <h1>Patient: {{ patient.first_name }} {{ patient.last_name }}
+        ({{ patient.mrn }})</h1>
+        <fieldset class="module aligned">
+          {% for field in form %}
+            {{ field.label_tag }} {{ field }}
+          {% endfor %}
+        </fieldset>
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  </div>
+</body>

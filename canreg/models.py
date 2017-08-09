@@ -1,5 +1,22 @@
 from django.db import models
 
+# dictionary tables start
+
+# Female, Male, Other
+class GenderDict(models.Model):
+    name = models.CharField(max_length=15)
+    def __str__(self):
+        return self.name
+
+class InstitutionDict(models.Model):
+    name = models.CharField(max_length=50)
+    is_predefined = models.BooleanField(default=False)
+
+    def __str__(self):              # __unicode__ on Python 2
+        return self.name
+
+# dictionary tables end
+
 class Person(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
@@ -9,18 +26,13 @@ class Person(models.Model):
 class User(Person):
     username = models.CharField(max_length=20, unique=True)
 
-# Female, Male, Other
-class Gender(models.Model):
-    name = models.CharField(max_length=15)
-    def __str__(self):
-        return self.name
-
 class Patient(models.Model):
+    gender = models.ForeignKey(GenderDict, on_delete=models.CASCADE)
     mrn = models.CharField(max_length=10)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     date_of_birth = models.DateField(blank=True)
-    gender = models.ForeignKey(Gender, on_delete=models.CASCADE)
+    year_of_birth = models.PositiveIntegerField()
     travel_time = models.CharField(max_length=20, blank=True)
     travel_method = models.CharField(max_length=30, blank=True)
     travel_cost = models.CharField(max_length=20, blank=True)
@@ -46,13 +58,6 @@ class PatientPhone(models.Model):
     ordinal = models.IntegerField()
     def __str__(self):
         return self.cell_phone_number
-
-class Institution(models.Model):
-    name = models.CharField(max_length=50)
-    is_predefined = models.BooleanField(default=False)
-
-    def __str__(self):              # __unicode__ on Python 2
-        return self.name
 
 class PreliminaryQuestions(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)

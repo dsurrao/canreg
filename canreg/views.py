@@ -8,7 +8,7 @@ from django import forms
 from django.forms import ModelForm, modelformset_factory, RadioSelect,\
 CheckboxSelectMultiple, CheckboxInput, Textarea
 
-from .models import Patient, PreliminaryQuestions, Institution
+from .models import Patient, PreliminaryQuestions
 from .forms import PreliminaryQuestionsForm
 from .new_patient_workflow import NewPatientState
 from .new_patient_workflow_ui import NewPatientWorkflowUI
