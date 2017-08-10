@@ -1,0 +1,36 @@
+<div>
+  <fieldset class="module aligned">
+    <div class="form-row">
+      {% for field in form %}
+        {% if field.label == "Procedure date" %}
+          {{ field.label_tag }} {{ field }}
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="form-row">
+      {% for field in form %}
+        {% if field.label == "Procedure hospital or clinic name" %}
+          {{ field.label_tag }} {{ field }}
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="form-row">
+      {% for field in form %}
+        {% if field.label == "Pathology report date" %}
+          {{ field.label_tag }} {{ field }}
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% for field in form %}
+      {% if field.label not in "Lvi, Grade, Procedure date, Procedure hospital or clinic name, Pathology report date" %}
+        <div class="form-row">
+          {{ field.label_tag }} {{ field }}
+        </div>
+      {% endif %}
+    {% endfor %}
+
+  </fieldset>
+</div>

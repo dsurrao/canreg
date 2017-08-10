@@ -3,12 +3,134 @@
   <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
   <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css">
   <link rel="stylesheet" type="text/css" href="/static/admin/css/changelists.css">
+  <script src="/static/js/jquery-3.2.1.slim.min.js"></script>
+  <script>
+    function breastSelected() {
+      $("input[name=side]").prop("checked", false)
+      $("input[name=side]").prop("disabled", false);
+
+      $("input[name=location]").prop("checked", false)
+      $("input[name=location]").prop("disabled", true);
+
+      $("#id_description").val('');
+    }
+
+    function lymphNodeSelected() {
+      $("input[name=side]").prop("checked", false)
+      $("input[name=side]").prop("disabled", false);
+
+      $("input[name=location]").prop("checked", false)
+      $("input[name=location]").prop("disabled", false);
+
+      $("#id_description").val('');
+    }
+
+    function boneSelected() {
+      $("input[name=side]").prop("checked", false)
+      $("input[name=side]").prop("disabled", true);
+
+      $("input[name=location]").prop("checked", false)
+      $("input[name=location]").prop("disabled", true);
+
+      $("#id_description").val('');
+    }
+
+    $( document ).ready(function() {
+      //alert($( "input[type=radio][name=biopsyreceptorstatus_set-0-receptor]:checked" ).val());
+
+      // configure ER control
+      $( "label[for$='id_biopsyreceptorstatus_set-0-receptor']" ).html("ER");
+
+      $( "select[name=biopsyreceptorstatus_set-0-receptor]" ).val([1]);
+      $( "select[name=biopsyreceptorstatus_set-0-receptor]" ).hide();
+      $( "select[name=biopsyreceptorstatus_set-0-is_positive] option[value=1]" ).html("Not determined")
+      $( "select[name=biopsyreceptorstatus_set-0-is_positive] option[value=2]" ).html("ER+")
+      $( "select[name=biopsyreceptorstatus_set-0-is_positive] option[value=3]" ).html("ER-")
+
+      $("label[for$='id_biopsyreceptorstatus_set-0-test_name']").hide();
+      $("#id_biopsyreceptorstatus_set-0-test_name").hide();
+
+      $("label[for$='id_biopsyreceptorstatus_set-0-DELETE']").hide();
+      $("#id_biopsyreceptorstatus_set-0-DELETE").hide();
+
+      $("label[for$='id_biopsyreceptorstatus_set-0-id']").hide();
+      $("#id_biopsyreceptorstatus_set-0-id").hide();
+
+      $("label[for$='id_biopsyreceptorstatus_set-0-biopsy']").hide();
+      $("#id_biopsyreceptorstatus_set-0-biopsy").hide();
+
+      $("label[for$='id_biopsyreceptorstatus_set-0-is_positive']").hide();
+
+      // configure PR control
+      $( "label[for$='id_biopsyreceptorstatus_set-1-receptor']" ).html("PR");
+
+      $( "select[name=biopsyreceptorstatus_set-1-receptor]" ).val([2]);
+      $( "select[name=biopsyreceptorstatus_set-1-receptor]" ).hide();
+
+      $("label[for$='id_biopsyreceptorstatus_set-1-test_name']").hide();
+      $("#id_biopsyreceptorstatus_set-1-test_name").hide();
+
+      $("label[for$='id_biopsyreceptorstatus_set-1-DELETE']").hide();
+      $("#id_biopsyreceptorstatus_set-1-DELETE").hide();
+
+      $("label[for$='id_biopsyreceptorstatus_set-1-id']").hide();
+      $("#id_biopsyreceptorstatus_set-1-id").hide();
+
+      $("label[for$='id_biopsyreceptorstatus_set-1-biopsy']").hide();
+      $("#id_biopsyreceptorstatus_set-1-biopsy").hide();
+
+      $( "select[name=biopsyreceptorstatus_set-1-is_positive] option[value=1]" ).html("Not determined")
+      $( "select[name=biopsyreceptorstatus_set-1-is_positive] option[value=2]" ).html("RR+")
+      $( "select[name=biopsyreceptorstatus_set-1-is_positive] option[value=3]" ).html("PR-")
+
+      $("label[for$='id_biopsyreceptorstatus_set-1-is_positive']").hide();
+
+      // configure HER2 control
+      $( "label[for$='id_biopsyreceptorstatus_set-2-receptor']" ).html("HER2");
+
+      $( "select[name=biopsyreceptorstatus_set-2-receptor]" ).val([3]);
+      $( "select[name=biopsyreceptorstatus_set-2-receptor]" ).hide();
+
+      $("label[for$='id_biopsyreceptorstatus_set-2-DELETE']").hide();
+      $("#id_biopsyreceptorstatus_set-2-DELETE").hide();
+
+      $("label[for$='id_biopsyreceptorstatus_set-2-id']").hide();
+      $("#id_biopsyreceptorstatus_set-2-id").hide();
+
+      $("label[for$='id_biopsyreceptorstatus_set-2-biopsy']").hide();
+      $("#id_biopsyreceptorstatus_set-2-biopsy").hide();
+
+      $("label[for$='id_biopsyreceptorstatus_set-2-strength']").hide();
+      $("#id_biopsyreceptorstatus_set-2-strength").hide();
+
+      $( "select[name=biopsyreceptorstatus_set-2-is_positive] option[value=1]" ).html("Not determined")
+      $( "select[name=biopsyreceptorstatus_set-2-is_positive] option[value=2]" ).html("HER2+")
+      $( "select[name=biopsyreceptorstatus_set-2-is_positive] option[value=3]" ).html("HER2-")
+
+      $("label[for$='id_biopsyreceptorstatus_set-2-is_positive']").hide();
+
+      $("#id_site_0").change (
+        function() {
+          breastSelected()
+        });
+
+      $("#id_site_1").change (
+        function() {
+          lymphNodeSelected()
+        });
+
+      $("#id_site_2").change (
+        function() {
+          boneSelected()
+        });
+    });
+  </script>
 </head>
 <body>
   <div class="breadcrumbs">
     <a href="/patients">Patient List</a>
     ›
-    <a href="/biopsy_status/{{ pathology_id }}/">Biopsy Status</a>
+    <a href="/biopsy_status/{{ patient.id }}/">Biopsy Status</a>
     ›
     Biopsy
   </div>
@@ -21,13 +143,15 @@
         ({{ patient.mrn }})</h1>
 
         <h3>Biopsy</h3>
-        {% include "canreg/radio_select_snippet.html" with form=biopsy_form %}
-        <h3>Biopsy Site</h3>
-        {% include "canreg/radio_select_snippet.html" with form=biopsy_site_form %}
-        <h3>Receptor Status</h3>
+        {% include "canreg/biopsy_snippet.html" with form=biopsy_form %}
+        <h3>Site</h3>
+        {% include "canreg/biopsy_site_snippet.html" with form=biopsy_site_form %}
+        <h3>Receptors</h3>
         {% include "canreg/receptor_snippet.html" with formset=biopsy_receptor_status_formset %}
+        <h3>Features</h3>
+        {% include "canreg/biopsy_features_snippet.html" with form=biopsy_form %}
 
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Save" />
       </form>
     </div>
   </div>

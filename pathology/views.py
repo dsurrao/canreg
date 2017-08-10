@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.forms import modelformset_factory, inlineformset_factory, \
-    RadioSelect
+    RadioSelect, NullBooleanSelect
 from canreg.models import Patient
 from .models import Pathology, Receptor, BiopsyReceptorStatus, Biopsy, \
     BiopsySite, ScheduledBiopsy
@@ -63,15 +63,11 @@ def biopsy(request, pathology_id):
             biopsy_site = BiopsySite(biopsy=biopsy)
         biopsy_site_form = BiopsySiteForm(instance=biopsy_site)
 
-    print 'here'
-
     StatusFormset = inlineformset_factory(Biopsy, BiopsyReceptorStatus,
         fields=('receptor', 'strength', 'test_name', 'is_positive'),
         max_num = 3,
         widgets={
-            'receptor': RadioSelect,
-            'strength': RadioSelect,
-            'test_name': RadioSelect
+            'is_positive': NullBooleanSelect
         })
     if request.method == 'POST':
         formset = StatusFormset(request.POST, instance=biopsy)
@@ -79,6 +75,9 @@ def biopsy(request, pathology_id):
             formset.save()
     else:
         formset = StatusFormset(instance=biopsy)
+
+    if request.method == 'POST':
+        return HttpResponseRedirect(reverse('patients'))
 
     return render(request, 'canreg/biopsy.html',
         {'biopsy_form': biopsy_form,
@@ -94,6 +93,7 @@ def no_biopsy(request, pathology_id):
     if request.method == 'POST':
         form = NoBiopsyForm(request.POST, instance=pathology)
         form.save()
+        return HttpResponseRedirect(reverse('patients'))
     else:
         form = NoBiopsyForm(instance=pathology)
 
@@ -113,6 +113,7 @@ def scheduled_biopsy(request, pathology_id):
     if request.method == 'POST':
         form = ScheduledBiopsyForm(request.POST, instance=scheduled_biopsy)
         form.save()
+        return HttpResponseRedirect(reverse('patients'))
     else:
         form = ScheduledBiopsyForm(instance=scheduled_biopsy)
 

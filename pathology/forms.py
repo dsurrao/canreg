@@ -29,8 +29,8 @@ class NoBiopsyForm(ModelForm):
 class BiopsyForm(ModelForm):
     class Meta:
         model = Biopsy
-        fields = ['pathologist_facility', 'pathologist_name',
-        'type','histology', 'grade', 'procedure_hospital_or_clinic_name',
+        fields = ['pathologist_facility', 'pathologist_name', 'type',
+        'histology', 'grade', 'procedure_hospital_or_clinic_name',
         'procedure_date', 'pathology_report_date', 'lvi']
         widgets = {
             'procedure_date': SelectDateWidget,

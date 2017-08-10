@@ -1,0 +1,40 @@
+<div>
+  <fieldset class="module aligned">
+    <div class="form-row">
+
+      {% for field in form %}
+        {% if field.label not in "Location, Description" %}
+          <div style="display:block;clear:both">
+              <label></label>
+              {% for subfield in field %}
+                {{ subfield }}
+              {% endfor %}
+          </div>
+        {% endif %}
+      {% endfor %}
+
+      {% for field in form %}
+        {% if field.label == 'Location' %}
+          <div style="display:block;clear:both">
+              <label></label>
+              {% for subfield in field %}
+                {{ subfield }}
+              {% endfor %}
+          </div>
+        {% endif %}
+      {% endfor %}
+
+      {% for field in form %}
+        {% if field.label == 'Description' %}
+          <div style="display:block;clear:both">
+              <label></label>
+              {% for subfield in field %}
+                {{ subfield }}
+              {% endfor %}
+          </div>
+        {% endif %}
+      {% endfor %}
+
+    </div>
+  </fieldset>
+</div>

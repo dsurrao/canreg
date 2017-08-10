@@ -24,7 +24,7 @@ from pathology import views as pathology_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^patients/$', views.IndexView.as_view()),
+    url(r'^patients/$', views.IndexView.as_view(), name='patients'),
     url(r'^patients/(?P<pk>[0-9]+)/$', views.DetailView.as_view()),
     url(r'^prelim_qns/(?P<patient_id>[0-9]+)/$', views.prelim_qns),
     url(r'^curative/(?P<patient_id>[0-9]+)/$', views.curative),

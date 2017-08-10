@@ -7,8 +7,10 @@ import datetime
 from django import forms
 from django.forms import ModelForm, modelformset_factory, RadioSelect,\
 CheckboxSelectMultiple, CheckboxInput, Textarea
+from django.db.models import OuterRef, Subquery
 
 from .models import Patient, PreliminaryQuestions
+from pathology.models import BiopsyStatusDict, Pathology
 from .forms import PreliminaryQuestionsForm
 from .new_patient_workflow import NewPatientState
 from .new_patient_workflow_ui import NewPatientWorkflowUI
@@ -18,7 +20,14 @@ class IndexView(generic.ListView):
     context_object_name = 'patient_list'
 
     def get_queryset(self):
-        return Patient.objects.all()
+        pathology = Pathology.objects.filter(
+            patient=OuterRef('pk')).select_related('biopsy_status')
+
+        patients = Patient.objects.annotate(
+            biopsy_status=Subquery(pathology.values('biopsy_status__name')),
+            recorded_date=Subquery(pathology.values('recorded_date')))
+
+        return patients
 
 class DetailView(generic.DetailView):
     model = Patient

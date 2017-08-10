@@ -1,0 +1,11 @@
+<div>
+  <fieldset class="module aligned">
+    {% for field in form %}
+      {% if field.label in "Lvi, Grade" %}
+        <div class="form-row">
+          {{ field.label_tag }} {{ field }}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </fieldset>
+</div>

@@ -3,9 +3,24 @@
     {{ formset.management_form }}
 
     {% for form in formset %}
+      {{ form.id }}
+      <div class="form-row">
         {% for field in form %}
-            {{ field.label_tag }} {{ field }}
+          {% if forloop.counter == 1 %}
+            <p>{{ field.label_tag }} {{ field }}</p>
+          {% endif %}
         {% endfor %}
+        {% for field in form %}
+          {% if forloop.counter == 4 %}
+            <p>{{ field.label_tag }} {{ field }}</p>
+          {% endif %}
+        {% endfor %}
+        {% for field in form %}
+          {% if forloop.counter == 2 or forloop.counter == 3 %}
+            <p>{{ field.label_tag }} {{ field }}</p>
+          {% endif %}
+        {% endfor %}
+      </div>
     {% endfor %}
   </fieldset>
 </div>

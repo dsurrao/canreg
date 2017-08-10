@@ -106,14 +106,16 @@ class Biopsy(models.Model):
 class BiopsySite(models.Model):
     biopsy = models.ForeignKey(Biopsy, on_delete=models.CASCADE)
     site = models.ForeignKey(AnatomySiteDict, on_delete=models.CASCADE)
-    location = models.ForeignKey(AnatomyLocationDict, on_delete=models.CASCADE)
+    location = models.ForeignKey(AnatomyLocationDict, on_delete=models.CASCADE,
+        null=True, blank=True)
     SIDE = (
         ('R', 'Right'),
         ('L', 'Left')
     )
-    side = models.CharField(max_length=1, choices=SIDE, default='')
+    side = models.CharField(max_length=1, choices=SIDE, default='',
+        null=True, blank=True)
     # can be used for bone name, e.g.
-    description = models.CharField(max_length=200, blank=True)
+    description = models.CharField(max_length=200, null=True, blank=True)
 
 class BiopsyReceptorStatus(models.Model):
     biopsy = models.ForeignKey(Biopsy, on_delete=models.CASCADE)
@@ -122,7 +124,7 @@ class BiopsyReceptorStatus(models.Model):
     null=True, blank=True)
     test_name = models.ForeignKey(ReceptorTestDict, on_delete=models.CASCADE,
     null=True, blank=True)
-    is_positive = models.BooleanField(default=False)
+    is_positive = models.NullBooleanField()
 
 class ScheduledBiopsy(models.Model):
     pathology = models.ForeignKey(Pathology, on_delete=models.CASCADE)
